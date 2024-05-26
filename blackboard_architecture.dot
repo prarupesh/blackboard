@@ -1,0 +1,47 @@
+digraph BlackboardArchitecture {
+    rankdir=TB; // Top to Bottom direction
+    node [shape=box, style=filled, color=lightgrey];
+
+    // Define nodes with increased height and width
+    Blackboard [label="Blackboard", shape=ellipse, style=filled, 
+color=lightblue, width=2, height=1.5];
+    TextProcessor [label="TextProcessor", width=2.5, height=0.8];
+    RuleBasedSentimentAnalysis [label="RuleBasedSentimentAnalysis", 
+width=2.5, height=0.8];
+    MachineLearningSentimentAnalysis 
+[label="MachineLearningSentimentAnalysis", width=2.5, height=0.8];
+    ControlComponent [label="ControlComponent", shape=hexagon, 
+style=filled, color=yellow, width=2, height=1];
+
+    // Define edges with more space and labels at the midpoint
+    Blackboard -> TextProcessor [label="reviews", minlen=3];
+    TextProcessor -> Blackboard [label="cleaned_reviews", minlen=3];
+    
+    Blackboard -> RuleBasedSentimentAnalysis [label="cleaned_reviews", 
+minlen=3];
+    RuleBasedSentimentAnalysis -> Blackboard [label="rule_based_scores", 
+minlen=3];
+    
+    Blackboard -> MachineLearningSentimentAnalysis 
+[label="cleaned_reviews", minlen=3];
+    MachineLearningSentimentAnalysis -> Blackboard 
+[label="ml_based_scores", minlen=3];
+    
+    ControlComponent -> TextProcessor [minlen=3];
+    ControlComponent -> RuleBasedSentimentAnalysis [minlen=3];
+    ControlComponent -> MachineLearningSentimentAnalysis [minlen=3];
+    
+    // Increase rank separation for better vertical spacing
+    ranksep=0.7;
+    
+    // Group nodes with more space
+    subgraph cluster_0 {
+        label = "Knowledge Sources";
+        style=filled;
+        color=lightgrey;
+        TextProcessor [margin=0.2];
+        RuleBasedSentimentAnalysis [margin=0.2];
+        MachineLearningSentimentAnalysis [margin=0.2];
+    }
+}
+
